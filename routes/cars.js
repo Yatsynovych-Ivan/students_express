@@ -37,6 +37,9 @@ router.post('/', async (req, res) => {
     console.error('Помилка при створенні машини:', error);
     res.status(500).send('Помилка при збереженні в базу даних');
   }
+  if (horsepower < 0 || weight < 0 || acceleration_0_to_100 < 0 || price < 0) {
+    return res.status(400).send('Помилка: Значення потужності, ваги, розгону та ціни можуть бути тільки додатні!');
+  }
 });
 
 
