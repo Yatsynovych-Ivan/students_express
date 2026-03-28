@@ -17,6 +17,7 @@ import catsRouter from './routes/cats.js'
 import dhdRouter from './routes/dhd.js'
 import streetFoodRouter from './routes/street_food.js'
 import presidentRouter from './routes/president.js'
+import productRouter from './routes/product.js'
 
 import { fileURLToPath } from 'url';
 
@@ -46,6 +47,7 @@ app.use('/heroes', heroesRouter);
 app.use('/cats', catsRouter); 
 app.use('/dhd', dhdRouter);
 app.use('/street_food', streetFoodRouter);
+app.use('/product', productRouter);
 
 // catch 404 and forward to error handler
 
