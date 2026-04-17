@@ -2,7 +2,7 @@ import express from 'express';
 import db from '../db/connector.js';
 const router = express.Router();
 
-// 1. Головна таблиця (Список)
+// 1. Головна таблиця 
 router.get('/', async (req, res) => {
     try {
         const result = await db.query('SELECT * FROM brawl_stars_heroes ORDER BY id ASC');
@@ -62,7 +62,7 @@ router.post('/update', async (req, res) => {
     }
 });
 
-// 6. Обробка видалення (Нове!)
+// 6. Обробка видалення 
 router.post('/delete', async (req, res) => {
     const { name } = req.body;
     try {

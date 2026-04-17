@@ -70,14 +70,14 @@ app.use('/bar', barRouter);
 app.use('/accounts', accountsRouter);
 app.use('/brawlers', brawlerRouter);
 
-// --- НОВИЙ ОБРОБНИК ПОМИЛОК ДЛЯ ДІАГНОСТИКИ ---
+
 app.use((err, req, res, next) => {
   // Виводимо повну помилку в термінал VS Code
   console.error('=== КРИТИЧНА ПОМИЛКА ===');
   console.error(err.stack); 
   console.error('========================');
 
-  // Виводимо текст помилки в браузер, щоб ми зрозуміли причину
+  // Виводимо текст помилки в браузер
   res.status(err.status || 500);
   res.render('error', { 
     message: err.message, // Тут з'явиться причина (наприклад: column "class" does not exist)

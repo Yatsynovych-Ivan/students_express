@@ -16,7 +16,7 @@ const pool = new Pool({
 
 const createTableQueries = [];
 
-// 1. Таблиця Brawl Stars (твоя нова таблиця)
+
 createTableQueries.push(`
     CREATE TABLE IF NOT EXISTS brawl_stars_heroes (
         id SERIAL PRIMARY KEY,
@@ -29,7 +29,7 @@ createTableQueries.push(`
     );
 `);
 
-// 2. Інші таблиці проекту
+
 createTableQueries.push(`
     CREATE TABLE IF NOT EXISTS heroes (
         id SERIAL PRIMARY KEY,
@@ -186,7 +186,7 @@ createTableQueries.push(`
     );
 `);
 
-// Автоматичне виконання запитів при старті
+
 for await (const query of createTableQueries) {
     try {
         const tableName = query.slice(0, query.indexOf('(')).replace('CREATE TABLE IF NOT EXISTS', '').trim();
