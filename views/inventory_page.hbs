@@ -1,0 +1,26 @@
+<h1>📦 Склад артефактів Сидоровича</h1>
+<hr>
+<table border="1" cellpadding="10">
+    <thead>
+        <tr>
+            <th>Назва</th>
+            <th>Аномалія</th>
+            <th>Рідкість</th>
+            <th>Радіація</th>
+            <th>Ціна (купони)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each items}}
+        <tr>
+            <td><strong>{{this.name}}</strong></td>
+            <td>{{this.origin_anomaly}}</td>
+            <td>{{this.rarity}}</td>
+            <td>{{this.radiation_level}} mR</td>
+            <td>💰 {{this.market_value}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<br>
+<a href="/">Повернутися на головну</a>
