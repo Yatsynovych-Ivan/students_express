@@ -48,16 +48,29 @@ createTableQueries.push(`
   `);
 
 createTableQueries.push(`
+    CREATE TABLE IF NOT EXISTS street_food_users (
+        id SERIAL PRIMARY KEY,
+        username TEXT UNIQUE NOT NULL,
+        email TEXT UNIQUE NOT NULL,
+        password_hash TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+`);
+
+createTableQueries.push(`
     CREATE TABLE IF NOT EXISTS street_food (
         id SERIAL PRIMARY KEY,
         food_name TEXT NOT NULL,
         country TEXT NOT NULL,
         spicy_level INTEGER CHECK (spicy_level BETWEEN 0 AND 10),
-        price NUMERIC(6,2),
+        price NUMERIC(6,2) CHECK (price >= 0.01),
         rating INTEGER CHECK (rating BETWEEN 1 AND 10),
+        image_url TEXT,
+        user_id INTEGER REFERENCES street_food_users(id) ON DELETE SET NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
-`)
+`);
+
 createTableQueries.push(`
  CREATE TABLE IF NOT EXISTS deadSpace (
     id SERIAL PRIMARY KEY,
@@ -177,6 +190,23 @@ createTableQueries.push(`CREATE TABLE IF NOT EXISTS heroes_mlbb (
 
 `);
 
+
+
+createTableQueries.push(`
+    CREATE TABLE IF NOT EXISTS houses (
+        id SERIAL PRIMARY KEY,
+        street TEXT NOT NULL,
+        house_area REAL NOT NULL,
+        rooms_count INTEGER NOT NULL,
+        floors_count INTEGER NOT NULL,
+        house_color TEXT,
+        plot_area REAL,
+        has_garage BOOLEAN DEFAULT FALSE,
+        is_renovated BOOLEAN DEFAULT FALSE,
+        extra_info TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+`);
 createTableQueries.push(`
     CREATE TABLE IF NOT EXISTS notabug_bugs (
         id SERIAL PRIMARY KEY,
@@ -221,6 +251,16 @@ createTableQueries.push(`
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 `);
+
+createTableQueries.push ( `
+    CREATE TABLE IF NOT EXISTS president (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    age INT,
+    country TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+   `);
 
 for await (const query of createTableQueries) {
     try {
