@@ -8,13 +8,28 @@ const pool = new Pool({
     host: process.env.DB_HOST,
     database: process.env.DB_NAME,
     password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT,
+    port: process.env.DB_PORT,   
     ssl: {
         rejectUnauthorized: false
     }
 });
 
 const createTableQueries = [];
+
+
+createTableQueries.push(`
+    CREATE TABLE IF NOT EXISTS brawl_stars_heroes (
+        id SERIAL PRIMARY KEY,
+        name TEXT NOT NULL UNIQUE,              
+        rarity TEXT NOT NULL,        
+        class TEXT,       
+        health INTEGER DEFAULT 0,
+        damage INTEGER DEFAULT 0,                                   
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+`);
+
+
 createTableQueries.push(`
     CREATE TABLE IF NOT EXISTS heroes (
         id SERIAL PRIMARY KEY,
@@ -25,6 +40,7 @@ createTableQueries.push(`
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 `);
+
 createTableQueries.push(`
  CREATE TABLE IF NOT EXISTS sloniki (
     id SERIAL PRIMARY KEY,
@@ -34,7 +50,8 @@ createTableQueries.push(`
     place_of_birth TEXT NOT NULL,           
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
    );
-      `);
+`);
+
 createTableQueries.push(`
     CREATE TABLE IF NOT EXISTS product (
     id SERIAL PRIMARY KEY,
@@ -42,9 +59,10 @@ createTableQueries.push(`
     name TEXT NOT NULL,
     price INT,
     quantity INT
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-
     );
+
+    ALTER TABLE product
+    ADD COLUMN IF NOT EXISTS created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
   `);
 
 createTableQueries.push(`
@@ -81,8 +99,8 @@ createTableQueries.push(`
     additional_info TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP    
    );
+`);
 
-  `);
 createTableQueries.push(`
         CREATE TABLE IF NOT EXISTS cars (
         id SERIAL PRIMARY KEY,
@@ -96,7 +114,8 @@ createTableQueries.push(`
         is_available BOOLEAN DEFAULT TRUE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
-        `);
+`);
+
 createTableQueries.push(`
  CREATE TABLE IF NOT EXISTS desperate_housewives_1 (
     id SERIAL PRIMARY KEY,
@@ -107,7 +126,7 @@ createTableQueries.push(`
     character_notes TEXT,             
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
    );
-  `);  
+`);  
 
 createTableQueries.push(`
     CREATE TABLE IF NOT EXISTS accounts(
@@ -117,7 +136,8 @@ createTableQueries.push(`
     password TEXT NOT NULL,
     adding_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
-    `);
+`);
+
 createTableQueries.push(`
  CREATE TABLE IF NOT EXISTS games_info (
     id SERIAL PRIMARY KEY,
@@ -127,6 +147,7 @@ createTableQueries.push(`
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 `);
+
 createTableQueries.push(`
     CREATE TABLE IF NOT EXISTS users_cats (
         id SERIAL PRIMARY KEY,
@@ -136,8 +157,9 @@ createTableQueries.push(`
         created_at TIMESTAMP DEFAULT NOW(),     
         is_active BOOLEAN DEFAULT TRUE          
     );
-      `);
-    createTableQueries.push(`
+`);
+
+createTableQueries.push(`
   CREATE TABLE IF NOT EXISTS gotham_villains (
     id SERIAL PRIMARY KEY,
     villain_name TEXT NOT NULL,
@@ -146,7 +168,8 @@ createTableQueries.push(`
     status TEXT,
     spotted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
-  `);
+`);
+
 createTableQueries.push(`
     CREATE TABLE IF NOT EXISTS cats (
         id SERIAL PRIMARY KEY,
@@ -159,7 +182,6 @@ createTableQueries.push(`
         owner_contact VARCHAR(255),
         character_notes TEXT,
         created_at TIMESTAMP DEFAULT NOW(),
-            
         user_id INTEGER NOT NULL,
         CONSTRAINT fk_user_cats
             FOREIGN KEY (user_id) 
@@ -179,7 +201,8 @@ createTableQueries.push(`
 `);
  
 
-createTableQueries.push(`CREATE TABLE IF NOT EXISTS heroes_mlbb (
+createTableQueries.push(`
+    CREATE TABLE IF NOT EXISTS heroes_mlbb (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,              
     hero_class TEXT,        
@@ -187,10 +210,7 @@ createTableQueries.push(`CREATE TABLE IF NOT EXISTS heroes_mlbb (
     attack_type TEXT,                                   
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
-
 `);
-
-
 
 createTableQueries.push(`
     CREATE TABLE IF NOT EXISTS houses (
@@ -252,6 +272,17 @@ createTableQueries.push(`
     );
 `);
 
+createTableQueries.push(`
+    CREATE TABLE IF NOT EXISTS kittens (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,              
+    breed TEXT,        
+    color TEXT,       
+    fur_type TEXT,            
+    energy_level INTEGER,                
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+`);
 createTableQueries.push ( `
     CREATE TABLE IF NOT EXISTS president (
     id SERIAL PRIMARY KEY,
@@ -279,10 +310,10 @@ for await (const query of createTableQueries) {
         console.log(query.slice(0, query.indexOf('(')).trim() + "...")
         await pool.query(query);
     } catch (err) {
-        console.error("query execution error: ", err.message);
+        console.error("Query execution error: ", err.message);
     }
 }
 
-console.log("CONNECTED!!!!!✅ ")
+console.log("CONNECTED!!!!!✅ ");
       
 export default pool;
