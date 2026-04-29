@@ -25,7 +25,7 @@ function validateSongBody({ title, artist, genre, duration }) {
     const dur = Number(duration);
     if (!duration && duration !== 0)
         errors.push('Duration is required');
-    else if (!Number.isInteger(dur) || dur < 1 || dur > 86400)
+    else if (!Number.isInteger(dur) > 86400)
         errors.push('Duration must be a whole number between 1 and 86400 seconds');
 
     return errors;
