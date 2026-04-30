@@ -29,6 +29,18 @@ createTableQueries.push(`
     );
 `);
 
+createTableQueries.push(`
+    CREATE TABLE IF NOT EXISTS movies (
+        id SERIAL PRIMARY KEY,
+        title TEXT NOT NULL,
+        director TEXT NOT NULL,
+        release_year INTEGER NOT NULL,
+        rating NUMERIC(3,1),
+        genre TEXT,
+        status TEXT,
+        poster_url TEXT,
+    );
+`);
 
 createTableQueries.push(`
     CREATE TABLE IF NOT EXISTS heroes (
@@ -283,6 +295,33 @@ createTableQueries.push(`
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 `);
+createTableQueries.push(`
+    CREATE TABLE IF NOT EXISTS artifacts (
+        id SERIAL PRIMARY KEY,
+        name TEXT NOT NULL,
+        origin_anomaly TEXT NOT NULL,
+        rarity TEXT DEFAULT 'Common',
+        radiation_level NUMERIC(10,2),
+        weight NUMERIC(10,2),
+        market_value INTEGER,
+        is_contained BOOLEAN DEFAULT TRUE,
+        stalker_owner TEXT,
+        properties_notes TEXT,
+        found_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );`);
+    
+createTableQueries.push(`
+    DROP TABLE IF EXISTS clothing;
+
+    CREATE TABLE clothing (
+    id SERIAL PRIMARY KEY,
+    type VARCHAR(255),
+    brand VARCHAR(255),
+    size VARCHAR(50),
+    price DECIMAL(10, 2),
+    stock_quantity INTEGER DEFAULT 0
+);  
+`);
 
 createTableQueries.push(`
     CREATE TABLE IF NOT EXISTS kittens (
@@ -316,6 +355,21 @@ createTableQueries.push (`
   additional_info TEXT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );`)
+
+createTableQueries.push(`
+    CREATE TABLE IF NOT EXISTS pomidores (
+        id SERIAL PRIMARY KEY,
+        name TEXT NOT NULL,
+        variety TEXT,
+        color TEXT,
+        weight_grams INTEGER,
+        sweetness_level INTEGER CHECK (sweetness_level BETWEEN 1 AND 10),
+        is_organic BOOLEAN DEFAULT FALSE,
+        country_of_origin TEXT,
+        price_per_kg NUMERIC(6,2),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+`);
 
 for await (const query of createTableQueries) {
     try {
