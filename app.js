@@ -29,8 +29,8 @@ import brawlerRouter from './routes/brawlstars.js';
 import housesRouter from './routes/houses.js';
 import spotifyRouter from './routes/spotify.js';
 import notabugRouter from './routes/notabug.js'
+import artifactRouter from './routes/artifacts.js';
 import clothingRouter from './routes/clothing.js';
-
 import turtleRouter from './routes/turtle.js';
 import kittensRouter from './routes/kittens.js'
 
@@ -52,13 +52,15 @@ hbs.registerHelper('eq', function (a, b) {
   return String(a) === String(b);
 });
 
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Маршрути
+
+
 app.use('/', indexRouter);
 app.use('/movies', moviesRouter);
 app.use('/students', usersRouter);
@@ -78,6 +80,8 @@ app.use('/bar', barRouter);
 app.use('/accounts', accountsRouter);
 app.use('/pesyki', pesykiRouter);
 app.use('/brawlers', brawlerRouter);
+
+app.use('/artifacts', artifactRouter);
 
 app.use('/houses', housesRouter);
 app.use('/spotify', spotifyRouter);
